@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css\index.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-leaf"></i>
+                <h1>CropCare</h1>
+            </a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="C:\Users\akash\OneDrive\Desktop\Crop-Disease-Management\index.html">Home</a></li>
+                    <li><a href="pages\cropcare.html">Cropcare</a></li>
+                    <li><a href="pages\community.html">Community</a></li>
+                    <li><a href="pages\contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-nav">
+                <a href="login.html" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="register.html" class="btn btn-register">
+                    <i class="fas fa-user-plus"></i> Register
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Empowering Farmers with Smart Disease Management</h2>
+            <p>Join our community of farmers and agricultural experts to detect, prevent, and manage crop diseases effectively.</p>
+            <button class="btn btn-register">Get Started Today</button>
+        </div>
+    </section>
+
+    <section class="feature-grid">
+        <div class="feature-card">
+            <i class="fas fa-microscope"></i>
+            <h3>Disease Detection</h3>
+            <p>Advanced AI-powered tool to identify crop diseases quickly and accurately.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>Interactive Map</h3>
+            <p>Real-time visualization of disease outbreaks and community insights.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-users"></i>
+            <h3>Expert Support</h3>
+            <p>Connect with agricultural experts for personalized guidance and solutions.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-book-open"></i>
+            <h3>Resource Hub</h3>
+            <p>Access comprehensive guides, tutorials, and best practices.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +1 234 567 890</li>
+                    <li><i class="fas fa-envelope"></i> info@cropcare.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Farming Street</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+                // Mobile menu toggle
+                const menuToggle = document.querySelector('.menu-toggle');
+                const navUl = document.querySelector('nav ul');
+                const authNav = document.querySelector('.auth-nav');
+        
+                menuToggle.addEventListener('click', () => {
+                    navUl.classList.toggle('active');
+                    authNav.classList.toggle('active');
+                });
+        
+                // Smooth scroll for navigation links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+        
+                // Check authentication status
+                window.addEventListener('load', () => {
+                    const user = JSON.parse(sessionStorage.getItem('user'));
+                    if (user) {
+                        const authNav = document.querySelector('.auth-nav');
+                        authNav.innerHTML = `
+                            <a href="#" class="btn btn-login">
+                                <i class="fas fa-user"></i> ${user.username}
+                            </a>
+                            <a href="#" class="btn btn-register" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        `;
+                    }
+                });
+        
+                // Logout function
+                function logout() {
+                    sessionStorage.removeItem('user');
+                    window.location.reload();
+                }
+    </script>
+</body>
+</html>

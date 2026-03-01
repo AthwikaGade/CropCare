@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detector</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --background-color: #f9fafb;
+            --text-color: #2c3e50;
+            --error-color: #e74c3c;
+            --success-color: #27ae60;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header>
+        <h1>Smart Crop Disease Detection</h1>
+        <p>Upload your crop image for instant disease detection and treatment recommendations</p>
+    </header>
+    
+
+    <div class="container">
+        <a href="/farmer_dashboard.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Input Methods Section -->
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Camera Input -->
+                <div class="flex flex-col items-center">
+                    <button id="cameraBtn" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                        <i class="fas fa-camera"></i>
+                        <span>Open Camera</span>
+                    </button>
+                    <video id="video" class="mt-4 w-full rounded-lg hidden"></video>
+                    <button id="captureBtn" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 hidden">
+                        <i class="fas fa-camera-retro mr-2"></i>Capture
+                    </button>
+                </div>
+
+                <!-- File Upload -->
+                <div class="flex flex-col items-center">
+                    <label class="w-full cursor-pointer">
+                        <div class="w-full bg-gray-50 hover:bg-gray-100 text-gray-500 font-semibold py-3 px-4 rounded-lg border-2 border-dashed border-gray-300 transition duration-300 flex items-center justify-center space-x-2">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Image</span>
+                        </div>
+                        <input type="file" class="hidden" accept="image/*" id="imageUpload" />
+                    </label>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="flex flex-col items-center justify-center">
+                <canvas id="canvas" class="hidden max-w-full h-auto rounded-lg shadow-md"></canvas>
+                <img id="preview" src="" alt="" class="hidden max-w-full h-auto rounded-lg shadow-md">
+                <button id="predictBtn" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed hidden">
+                    <i class="fas fa-search mr-2"></i>Analyze Image
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6 hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Analysis Results</h2>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div id="prediction" class="text-lg text-gray-700 font-semibold"></div>
+                    <div id="confidence" class="mt-1 text-gray-600"></div>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Disease Information</h3>
+                <div id="diseaseInfo" class="text-gray-700 whitespace-pre-line bg-gray-50 rounded-lg p-4"></div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-5 rounded-lg flex items-center space-x-3">
+                <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+                <span class="text-gray-700">Analyzing image...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const imageUpload = document.getElementById('imageUpload');
+            const preview = document.getElementById('preview');
+            const predictBtn = document.getElementById('predictBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const cameraBtn = document.getElementById('cameraBtn');
+            const captureBtn = document.getElementById('captureBtn');
+            let stream = null;
+
+            // Camera handling
+            cameraBtn.addEventListener('click', async function() {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = stream;
+                    video.play();
+                    video.classList.remove('hidden');
+                    captureBtn.classList.remove('hidden');
+                    preview.classList.add('hidden');
+                    canvas.classList.add('hidden');
+                } catch (err) {
+                    alert('Error accessing camera: ' + err.message);
+                }
+            });
+
+            captureBtn.addEventListener('click', function() {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+                
+                video.classList.add('hidden');
+                captureBtn.classList.add('hidden');
+                canvas.classList.remove('hidden');
+                predictBtn.classList.remove('hidden');
+            });
+
+            // File upload handling
+            imageUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                        canvas.classList.add('hidden');
+                        video.classList.add('hidden');
+                        captureBtn.classList.add('hidden');
+                        predictBtn.classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Prediction handling
+            predictBtn.addEventListener('click', async function() {
+                loadingSpinner.classList.remove('hidden');
+                resultsSection.classList.add('hidden');
+                
+                const formData = new FormData();
+                if (canvas.classList.contains('hidden')) {
+                    // Using uploaded image
+                    formData.append('file', imageUpload.files[0]);
+                } else {
+                    // Using captured image
+                    canvas.toBlob(function(blob) {
+                        formData.append('file', blob, 'capture.jpg');
+                    }, 'image/jpeg');
+                }
+
+                try {
+                    const response = await fetch('/predict', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('prediction').innerHTML = `
+                            <i class="fas fa-leaf text-green-500 mr-2"></i>
+                            Detected: ${data.prediction}
+                        `;
+                        document.getElementById('confidence').innerHTML = `
+                            <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
+                            Confidence: ${data.confidence.toFixed(2)}%
+                        `;
+                        document.getElementById('diseaseInfo').textContent = data.disease_info;
+                        resultsSection.classList.remove('hidden');
+                    } else {
+                        alert(data.error || 'An error occurred during prediction');
+                    }
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

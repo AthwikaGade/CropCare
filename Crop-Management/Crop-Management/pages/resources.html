@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+        }
+
+        header {
+            background-color: #2c5282;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        #resourcesList {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .resource-icon {
+            background-color: #ebf4ff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .resource-icon i {
+            color: #2c5282;
+            font-size: 1.5rem;
+        }
+
+        .resource-title {
+            font-size: 1.25rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-description {
+            color: #718096;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #e53e3e;
+            padding: 1rem;
+            background: #fff5f5;
+            border-radius: 8px;
+            margin: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            #resourcesList {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                padding: 1rem;
+            }
+            
+            header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Farmer Resources</h1>
+    </header>
+    
+    <div class="container">
+        <a href="/farmer_dashboard.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+     
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search resources...">
+        </div>
+
+        <div id="resourcesList">
+            <!-- Resources will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Check authentication status
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            return token;
+        }
+
+        // Fetch and display resources
+        async function loadResources() {
+            const token = checkAuth();
+            if (!token) return;
+
+            try {
+                const response = await fetch('http://localhost:3002/resources', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch resources');
+                }
+
+                const resources = await response.json();
+                displayResources(resources);
+            } catch (error) {
+                console.error('Error loading resources:', error);
+                document.getElementById('resourcesList').innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Failed to load resources. Please try again later.
+                    </div>
+                `;
+            }
+        }
+
+        // Display resources in cards
+        function displayResources(resources) {
+            const resourcesList = document.getElementById('resourcesList');
+            if (!resources.length) {
+                resourcesList.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-info-circle"></i>
+                        No resources available at the moment.
+                    </div>
+                `;
+                return;
+            }
+
+            resourcesList.innerHTML = resources.map(resource => `
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="${getIconClass(resource.type)}"></i>
+                    </div>
+                    <h3 class="resource-title">${resource.title}</h3>
+                    <p class="resource-description">${resource.description}</p>
+                    <div class="resource-meta">
+                        <span>${resource.category || 'General'}</span>
+                        <span>${formatDate(resource.date)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get appropriate icon class based on resource type
+        function getIconClass(type) {
+            const icons = {
+                'guide': 'fas fa-book',
+                'tool': 'fas fa-tools',
+                'video': 'fas fa-video',
+                'document': 'fas fa-file-alt',
+                'default': 'fas fa-seedling'
+            };
+            return icons[type?.toLowerCase()] || icons.default;
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            return new Date(dateString).toLocaleDateString();
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.resource-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.resource-title').textContent.toLowerCase();
+                const description = card.querySelector('.resource-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Load resources when page loads
+        document.addEventListener('DOMContentLoaded', loadResources);
+    </script>
+</body>
+</html>

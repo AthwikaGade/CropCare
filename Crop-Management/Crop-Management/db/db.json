@@ -1,0 +1,174 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin",
+      "createdAt": "2024-11-24T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "username": "farmer1",
+      "email": "farmer1@example.com",
+      "password": "farmer123",
+      "role": "farmer",
+      "createdAt": "2024-11-24T10:00:00.000Z"
+    },
+    {
+      "id": "76e6",
+      "username": "akash",
+      "password": "SALR@123",
+      "role": "farmer"
+    },
+    {
+      "id": "4815",
+      "username": "akashmuddapu@gmail.com",
+      "password": "SALR@123",
+      "role": "farmer"
+    },
+    {
+      "id": "70eb",
+      "username": "RAHUL",
+      "password": "SALR@123",
+      "role": "admin"
+    },
+    {
+      "id": "5743",
+      "username": "Athwika Gade",
+      "password": "Amma@141",
+      "role": "farmer"
+    },
+    {
+      "id": "e3c0",
+      "username": "Athwika Gade",
+      "password": "athwika",
+      "role": "farmer"
+    },
+    {
+      "id": "6438",
+      "username": "Athwika Gade",
+      "password": "Athwi",
+      "role": "farmer"
+    },
+    {
+      "id": "6150",
+      "username": "akash",
+      "password": "SALR@123",
+      "role": "farmer"
+    },
+    {
+      "id": "534c",
+      "username": "farmer3",
+      "password": "farmer123",
+      "role": "farmer"
+    },
+    {
+      "id": "a3f1",
+      "username": "farmer1",
+      "password": "farmer123",
+      "role": "farmer"
+    }
+  ],
+  "resources": [
+    {
+      "title": "Crop Planning Guide",
+      "description": "Complete guide for seasonal crop planning",
+      "type": "guide",
+      "category": "Planning",
+      "date": "2024-03-15",
+      "id": "a891"
+    },
+    {
+      "id": "70bd",
+      "name": "SDF",
+      "details": "SDFV",
+      "status": "active",
+      "createdAt": "2025-01-10T05:54:56.987Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "name": "Crop Management Workshop",
+      "location": "Kansas",
+      "date": "2024-11-30",
+      "details": "A workshop on advanced crop management techniques."
+    },
+    {
+      "id": "a295",
+      "name": "dfghj",
+      "location": "vghj n",
+      "date": "2024-11-26T00:42",
+      "type": "seminar",
+      "details": "erfghj"
+    },
+    {
+      "id": "string",
+      "name": "string",
+      "location": "string",
+      "date": "datetime",
+      "type": "string",
+      "details": "string"
+    }
+  ],
+  "mentors": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "expertise": "Crop Health",
+      "contact": "john.doe@example.com"
+    }
+  ],
+  "diseaseDetection": [
+    {
+      "id": "1",
+      "name": "Blight",
+      "details": "Occurs due to fungal infection."
+    },
+    {
+      "id": "2",
+      "name": "Powdery Mildew",
+      "details": "Caused by poor air circulation."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "2",
+      "title": "Apply Fertilizer (Plot B)",
+      "schedule": "08:00",
+      "duration": "2 hours",
+      "priority": "medium",
+      "dueDate": "2024-11-26",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "title": "Check Pest Traps (Plot C)",
+      "schedule": "10:00",
+      "duration": "30 minutes",
+      "priority": "low",
+      "dueDate": "2024-11-26",
+      "completed": true
+    },
+    {
+      "id": "0df6",
+      "title": "watering",
+      "schedule": "15:53",
+      "duration": "2 hours",
+      "priority": "high",
+      "dueDate": "2024-11-29",
+      "completed": false
+    },
+    {
+      "id": "e4c2",
+      "title": "asdfg",
+      "schedule": "11:19",
+      "duration": "5",
+      "priority": "high",
+      "dueDate": "2025-01-30",
+      "completed": true
+    }
+  ]
+}

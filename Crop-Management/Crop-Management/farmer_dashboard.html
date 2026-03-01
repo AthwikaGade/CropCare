@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropCare Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css\farmer_dashboard.css">
+
+</head>
+<body>
+    <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fas fa-leaf"></i>
+                <h1>CropCare</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#"><i class="fas fa-home"></i>Dashboard</a></li>
+                <li><a href="http://localhost:5000"><i class="fas fa-microscope"></i>Disease Detection</a></li>
+                <li><a href="pages\resources.html"><i class="fas fa-book"></i>Resources</a></li>
+                <li><a href="pages\mentorship.html"><i class="fas fa-users"></i>Mentorship</a></li>
+                <li><a href="pages\events.html"><i class="fas fa-calendar-alt"></i>Events</a></li>
+                <li><a href="index.html"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div class="welcome-text">
+                    <h2>Welcome back, Farmer!</h2>
+                    <p>Here's what's happening with your crops today</p>
+                </div>
+            </div>
+
+            <div class="dashboard-cards">
+                <a href="pages\crop_health.html" class="card health">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Crop Health</h3>
+                    <p>Monitor your crop health status and get real-time alerts</p>
+                </a>
+                
+                <a href="pages\weather_update.html" class="card weather">
+                    <i class="fas fa-cloud-sun-rain"></i>
+                    <h3>Weather Updates</h3>
+                    <p>Track weather conditions affecting your farming area</p>
+                </a>
+                
+                <a href="pages\task_management.html" class="card tasks">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Tasks</h3>
+                    <p>View and manage your daily farming activities</p>
+                </a>
+                
+                <a href="pages\farm_anlytics.html" class="card analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analytics</h3>
+                    <p>Track your farm's performance and growth metrics</p>
+                </a>
+            </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

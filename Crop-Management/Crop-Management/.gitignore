@@ -1,0 +1,23 @@
+# Large model file
+PlantVillage.h5
+
+# Node dependencies
+node_modules/
+
+# VS files
+.vs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+
+# Uploads
+uploads/
+
+# OS
+.DS_Store
+desktop.ini

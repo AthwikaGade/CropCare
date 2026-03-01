@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Updates - CropCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .weather-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .weather-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .weather-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .forecast-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .forecast-day {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .forecast-day i {
+            margin-right: 15px;
+            color: #3498db;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .weather-alert {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/farmer_dashboard.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <div class="header">
+            <h1><i class="fas fa-cloud-sun-rain"></i> Weather Updates</h1>
+            <p>Current conditions and forecast for your farming area</p>
+        </div>
+
+        <div class="weather-alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Weather Alert:</strong> Heavy rainfall expected in the next 24 hours
+        </div>
+
+        <div class="weather-cards">
+            <div class="weather-card">
+                <i class="fas fa-thermometer-half weather-icon"></i>
+                <h3>Temperature</h3>
+                <p class="large">24°C</p>
+                <p>Feels like 26°C</p>
+            </div>
+            <div class="weather-card">
+                <i class="fas fa-tint weather-icon"></i>
+                <h3>Humidity</h3>
+                <p class="large">65%</p>
+                <p>Optimal for crops</p>
+            </div>
+            <div class="weather-card">
+                <i class="fas fa-wind weather-icon"></i>
+                <h3>Wind</h3>
+                <p class="large">12 km/h</p>
+                <p>North-East</p>
+            </div>
+            <div class="weather-card">
+                <i class="fas fa-sun weather-icon"></i>
+                <h3>UV Index</h3>
+                <p class="large">6</p>
+                <p>Moderate</p>
+            </div>
+        </div>
+
+        <div class="forecast-section">
+            <h2>7-Day Forecast</h2>
+            <div class="forecast-day">
+                <i class="fas fa-sun"></i>
+                <div>
+                    <h4>Today</h4>
+                    <p>Sunny, High: 24°C, Low: 18°C</p>
+                </div>
+            </div>
+            <div class="forecast-day">
+                <i class="fas fa-cloud-rain"></i>
+                <div>
+                    <h4>Tomorrow</h4>
+                    <p>Rain, High: 22°C, Low: 17°C</p>
+                </div>
+            </div>
+            <div class="forecast-day">
+                <i class="fas fa-cloud"></i>
+                <div>
+                    <h4>Wednesday</h4>
+                    <p>Cloudy, High: 23°C, Low: 16°C</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
